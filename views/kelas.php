@@ -13,11 +13,7 @@
     $total_records = mysqli_num_rows($result);
     $per_page = 5; // Jumlah data per halaman
     $total_pages = ceil($total_records / $per_page);
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-    } else {
-        $page = 1;
-    }
+    $page = isset($_GET['page']) ? $_GET['page'] : 1;
     $start_from = ($page - 1) * $per_page;
     // query terakhir setelah dilimit
     $query .= " LIMIT $start_from, $per_page";
@@ -32,46 +28,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Kelas</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <h2 class="mb-3">Data Kelas</h2>
-        <div class="d-flex justify-content-between mb-3">
-            <div>
-            <a href="../index.php" class="btn btn-primary">Kembali ke Data Siswa</a>
+    <div class="container mt-5">
+        <h2 class="mb-4 text-center">Data Kelas</h2>
+        <div class="row g-3 mb-3">
+            <div class="col-12 col-md-3">
+                <a href="../index.php" class="btn btn-primary w-100 w-md-auto">Kembali ke Data Siswa</a>
             </div>
-            <form action="" method="GET" class="d-flex">
-                <input type="search" name="search" class="form-control me-2" placeholder="Cari kelas..." value="<?= isset($search) ? $search : ''; ?>">
-                <button type="submit" class="btn btn-success">Cari</button>
-            </form>
-            <div>
-                <a href="../actions/tambah_kelas.php" class="btn btn-success">Tambah Kelas</a>
+            <div class="col-12 col-md-6">
+                <form action="" method="GET" class="d-flex search-from">
+                    <input type="search" name="search" class="form-control me-2" placeholder="Cari kelas..." value="<?= isset($search) ? $search : ''; ?>">
+                    <button type="submit" class="btn btn-success">Cari</button>
+                </form>
+            </div>
+            <div class="col-12 col-md-3 text-md-end">
+                <a href="../actions/tambah_kelas.php" class="btn btn-success w-100 w-md-auto">Tambah Kelas</a>
             </div>
         </div>
-        <table class="table table-bordered">
-            <thead class="table-dark">
-                <th>ID Kelas</th>
-                <th>Nama Kelas</th>
-                <th>Aksi</th>
-            </thead>
-            <tbody>
-                <?php $i = 1; ?>
-                <?php while($row = mysqli_fetch_assoc($result)) : ?>
-                    <tr>
-                        <td><?= $i; ?></td>
-                        <td><?= $row["nama_kelas"]; ?></td>
-                        <td>
-                            <a href="../actions/edit_kelas.php?id=<?= $row["id_kelas"]; ?>" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="../actions/hapus_kelas.php?id=<?= $row["id_kelas"]; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
-                        </td>
-                    </tr>
-                    <?php $i++ ?>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark text-center">
+                    <th style="width: 15%">No. </th>
+                    <th style="width: 55%">Nama Kelas</th>
+                    <th style="width: 30%">Aksi</th>
+                </thead>
+                <tbody>
+                    <?php $i = 1; ?>
+                    <?php while($row = mysqli_fetch_assoc($result)) : ?>
+                        <tr class="text-center">
+                            <td><?= $i; ?></td>
+                            <td><?= $row["nama_kelas"]; ?></td>
+                            <td>
+                                <div class="table-actions d-flex justify-content-center gap-2">
+                                    <a href="../actions/edit_kelas.php?id=<?= $row["id_kelas"]; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="../actions/hapus_kelas.php?id=<?= $row["id_kelas"]; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <?php $i++ ?>
+                    <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
         <!-- navigasi pagination -->
-        <nav>
-            <ul class="pagination">
+        <nav class="mt-3">
+            <ul class="pagination pagination-sm flex-wrap justify-content-center">
                 <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
                     <li class="page-item <?php if ($page == $i) echo 'active'; ?>">
                         <a class="page-link" href="?page=<?= $i; ?>&search=<?= isset($search) ? $search : ''; ?>"><?= $i; ?></a>
