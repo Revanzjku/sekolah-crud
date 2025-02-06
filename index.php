@@ -1,10 +1,11 @@
-<?php 
+<?php
     require 'includes/connect.php';
 
     $query = "SELECT *, kelas.nama_kelas, wali_murid.nama_wali FROM siswa
             LEFT JOIN kelas ON siswa.id_kelas = kelas.id_kelas
             LEFT JOIN wali_murid ON siswa.id_wali = wali_murid.id_wali
     ";
+    // untuk menjalankan search
     if (isset($_GET['search'])) {
         $search = $_GET['search'];
         $query .= " WHERE nama_siswa LIKE '%$search%' OR
@@ -14,22 +15,23 @@
                         nama_kelas LIKE '%$search%' OR
                         nama_wali LIKE '%$search%'";
     }
+    // mengurutkan data berdasarkan NIS dari kecil ke besar
     $query .= " ORDER BY nis ASC";
     $result = mysqli_query($conn, $query);
     // Pagination
     $total_records = mysqli_num_rows($result);
-    $per_page = 5; // Jumlah data per halaman
+    $per_page = 5;
     $total_pages = ceil($total_records / $per_page);
-
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
     } else {
         $page = 1;
     }
-
     $start_from = ($page - 1) * $per_page;
+    // query terakhir setelah dilimit
     $query .= " LIMIT $start_from, $per_page";
     $result = mysqli_query($conn, $query);
+    // membersihkan url setelah search
     echo "<script>window.history.replaceState(null, null, 'index.php');</script>";
 ?>
 <!DOCTYPE html>
@@ -85,6 +87,7 @@
                 <?php endwhile; ?>
             </tbody>
         </table>
+        <!-- navigasi pagination -->
         <nav>
             <ul class="pagination">
                 <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
@@ -94,6 +97,7 @@
                 <?php endfor; ?>
             </ul>
         </nav>
+        <!-- navigasi pagination -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -59,8 +59,8 @@
                         <td><?= $row["nama_wali"]; ?></td>
                         <td><?= $row["kontak"]; ?></td>
                         <td>
-                            <a href="actions/edit_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="actions/hapus_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                            <a href="../actions/edit_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="../actions/hapus_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                         </td>
                     </tr>
                 <?php endwhile; ?>

@@ -13,16 +13,16 @@
     $total_records = mysqli_num_rows($result);
     $per_page = 5; // Jumlah data per halaman
     $total_pages = ceil($total_records / $per_page);
-
     if (isset($_GET['page'])) {
         $page = $_GET['page'];
     } else {
         $page = 1;
     }
-
     $start_from = ($page - 1) * $per_page;
+    // query terakhir setelah dilimit
     $query .= " LIMIT $start_from, $per_page";
     $result = mysqli_query($conn, $query);
+    // membersihkan url setelah search
     echo "<script>window.history.replaceState(null, null, 'kelas.php');</script>";
 ?>
 <!DOCTYPE html>
@@ -69,6 +69,7 @@
                 <?php endwhile; ?>
             </tbody>
         </table>
+        <!-- navigasi pagination -->
         <nav>
             <ul class="pagination">
                 <?php for ($i = 1; $i <= $total_pages; $i++) : ?>
@@ -78,6 +79,7 @@
                 <?php endfor; ?>
             </ul>
         </nav>
+        <!-- navigasi pagination -->
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
