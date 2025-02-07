@@ -62,12 +62,12 @@
                         <tr class="text-center">
                             <td><?= $row["nama_wali"]; ?></td>
                             <td><?= $row["kontak"]; ?></td>
-                            <div class="table-actions d-flex justify-content-center gap-2">
                                 <td>
-                                    <a href="../actions/edit_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                    <a href="../actions/hapus_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                                    <div class="table-actions d-flex justify-content-center gap-2">
+                                        <a href="../actions/edit_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                        <a href="../actions/hapus_wali.php?id=<?= $row["id_wali"]; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
+                                    </div>
                                 </td>
-                            </div>
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
